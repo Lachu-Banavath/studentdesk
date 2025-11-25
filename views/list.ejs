@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title><%= title %> | StudentDesk</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; }
+    body { background: #f5f7fb; color: #111827; }
+    a { text-decoration: none; color: inherit; }
+    .navbar { width: 100%; padding: 16px 5%; background: #ffffff; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08); }
+    .nav-logo { font-size: 22px; font-weight: 700; color: #2563eb; }
+    .nav-logo span { color: #111827; }
+    .nav-links { display: flex; gap: 18px; font-size: 13px; }
+    .nav-links a { padding: 6px 10px; border-radius: 999px; }
+    .nav-links a:hover { background: #e5edff; }
+    .nav-actions { display:flex; gap:10px; align-items:center; font-size: 12px; }
+    .btn-outline { border: 1px solid #d1d5db; background:#fff; padding:6px 12px; border-radius:999px; cursor:pointer; }
+    .btn-primary { border:none; background:#2563eb; color:#fff; padding:6px 12px; border-radius:999px; cursor:pointer; }
+    .wrap { max-width: 1100px; margin: 24px auto 32px; padding: 0 16px; }
+    h1 { font-size: 22px; margin-bottom: 4px; }
+    .subtitle { font-size: 13px; color: #6b7280; margin-bottom: 18px; }
+    .filters { margin-bottom: 18px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; font-size: 12px; }
+    .filters label { display: block; margin-bottom: 3px; color: #374151; }
+    .filters select, .filters input[type="text"] { width: 100%; padding: 7px 9px; border-radius: 10px; border: 1px solid #d1d5db; outline: none; font-size: 12px; background: #f9fafb; }
+    .filters select:focus, .filters input[type="text"]:focus { border-color: #2563eb; background: #ffffff; }
+    .filters-actions { grid-column: 1 / -1; display: flex; gap: 8px; margin-top: 4px; }
+    .card-grid { margin-top: 12px; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+    .card { background: #ffffff; border-radius: 14px; padding: 12px; box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06); font-size: 12px; display: flex; flex-direction: column; gap: 6px; }
+    .title { font-size: 13px; font-weight: 600; }
+    .meta { display: flex; flex-wrap: wrap; gap: 6px; font-size: 11px; color: #6b7280; }
+    .tag { padding: 3px 8px; border-radius: 999px; background: #eff6ff; color: #1d4ed8; font-size: 10px; }
+    .download-row { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
+    .download-row button { border: none; outline: none; padding: 6px 10px; border-radius: 999px; background: #2563eb; color: #ffffff; font-size: 11px; cursor: pointer; }
+    .download-count { font-size: 11px; color: #6b7280; }
+    .empty { margin-top: 16px; font-size: 12px; color: #6b7280; }
+    .pagination { margin-top: 18px; display:flex; justify-content:center; gap:8px; font-size:12px; align-items:center; }
+    .pagination a { padding:6px 10px; border-radius:999px; border:1px solid #d1d5db; background:#fff; text-decoration:none; }
+    .pagination .current { padding:6px 12px; border-radius:999px; background:#2563eb; color:#fff; }
+    .pagination .disabled { opacity:0.4; pointer-events:none; }
+    .footer { padding: 16px 5% 24px; border-top: 1px solid #e5e7eb; font-size: 11px; color: #6b7280; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+    .footer a { margin-right: 10px; font-size: 11px; }
+    @media (max-width: 800px) {
+      .filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .nav-links { display:none; }
+    }
+    @media (max-width: 600px) {
+      .filters { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-logo">Student<span>Desk</span></div>
+    <nav class="nav-links">
+      <a href="/">Home</a>
+      <a href="/papers">Exam Papers</a>
+      <a href="/notes">Notes</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+      <a href="/upload">Upload</a>
+    </nav>
+    <div class="nav-actions">
+      <% if (student) { %>
+        <span>Hi, <%= student.name %></span>
+        <form method="POST" action="/student/logout" style="display:inline;">
+          <button type="submit" class="btn-outline">Logout</button>
+        </form>
+      <% } else { %>
+        <a href="/student/login" style="text-decoration:none;"><button type="button" class="btn-outline">Student Login</button></a>
+      <% } %>
+
+      <% if (isAdmin) { %>
+        <form method="POST" action="/admin/logout" style="display:inline;">
+          <button type="submit" class="btn-primary">Admin Logout</button>
+        </form>
+      <% } else { %>
+        <a href="/admin/login" style="text-decoration:none;"><button type="button" class="btn-primary">Admin Login</button></a>
+      <% } %>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <h1><%= title %></h1>
+    <div class="subtitle">
+      Filter and explore all <%= type === "paper" ? "question papers" : type === "note" ? "notes PDFs" : "resources" %>.
+    </div>
+
+    <form class="filters" method="GET">
+      <div>
+        <label for="q">Search</label>
+        <input type="text" id="q" name="q" placeholder="Search by title, subject..." value="<%= filters.q || '' %>" />
+      </div>
+
+      <div>
+        <label for="branch">Branch</label>
+        <% const b = filters.branch || ""; %>
+        <select id="branch" name="branch">
+          <option value="">All</option>
+          <option value="CSE" <%= b === "CSE" ? "selected" : "" %>>CSE</option>
+          <option value="ECE" <%= b === "ECE" ? "selected" : "" %>>ECE</option>
+          <option value="EEE" <%= b === "EEE" ? "selected" : "" %>>EEE</option>
+          <option value="CIVIL" <%= b === "CIVIL" ? "selected" : "" %>>CIVIL</option>
+          <option value="CSE Cyber Security" <%= b === "CSE Cyber Security" ? "selected" : "" %>>CSE Cyber Security</option>
+          <option value="CSE Data Science" <%= b === "CSE Data Science" ? "selected" : "" %>>CSE Data Science</option>
+          <option value="AIML" <%= b === "AIML" ? "selected" : "" %>>AIML</option>
+          <option value="IoT" <%= b === "IoT" ? "selected" : "" %>>IoT</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="year">Year</label>
+        <% const y = filters.year || ""; %>
+        <select id="year" name="year">
+          <option value="">All</option>
+          <option value="1st Year" <%= y === "1st Year" ? "selected" : "" %>>1st Year</option>
+          <option value="2nd Year" <%= y === "2nd Year" ? "selected" : "" %>>2nd Year</option>
+          <option value="3rd Year" <%= y === "3rd Year" ? "selected" : "" %>>3rd Year</option>
+          <option value="4th Year" <%= y === "4th Year" ? "selected" : "" %>>4th Year</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="sem">Semester</label>
+        <% const s = filters.sem || ""; %>
+        <select id="sem" name="sem">
+          <option value="">All</option>
+          <% for (let i = 1; i <= 8; i++) { const label = "Semester " + i; %>
+            <option value="<%= label %>" <%= s === label ? "selected" : "" %>><%= label %></option>
+          <% } %>
+        </select>
+      </div>
+
+      <div>
+        <label for="examType">Exam Type</label>
+        <% const eType = filters.examType || ""; %>
+        <select id="examType" name="examType">
+          <option value="">All</option>
+          <option value="Mid Exam" <%= eType === "Mid Exam" ? "selected" : "" %>>Mid Exam</option>
+          <option value="Semester Final" <%= eType === "Semester Final" ? "selected" : "" %>>Semester Final</option>
+          <option value="Lab External" <%= eType === "Lab External" ? "selected" : "" %>>Lab External</option>
+          <option value="Unit Test" <%= eType === "Unit Test" ? "selected" : "" %>>Unit Test</option>
+        </select>
+      </div>
+
+      <div class="filters-actions">
+        <button type="submit" class="btn-primary">Apply Filters</button>
+        <a href="" class="btn-outline" onclick="event.preventDefault(); window.location.href = window.location.pathname;">Clear</a>
+      </div>
+    </form>
+
+    <% if (resources.length === 0) { %>
+      <div class="empty">No resources found for this filter.</div>
+    <% } %>
+
+    <div class="card-grid">
+      <% resources.forEach(function(r) { %>
+        <div class="card">
+          <div class="title"><%= r.title %></div>
+          <div class="meta">
+            <% if (r.subject) { %><span><%= r.subject %></span><% } %>
+            <% if (r.year) { %><span><%= r.year %></span><% } %>
+            <% if (r.semester) { %><span><%= r.semester %></span><% } %>
+            <% if (r.examType) { %><span><%= r.examType %></span><% } %>
+            <% if (r.regulation) { %><span>Reg: <%= r.regulation %></span><% } %>
+          </div>
+          <div class="meta">
+            <% if (r.branch) { %><span class="tag"><%= r.branch %></span><% } %>
+            <% if (r.type) { %><span class="tag"><%= r.type === "paper" ? "Paper" : "Notes" %></span><% } %>
+          </div>
+          <div class="download-row">
+            <div class="download-count">
+              📄 PDF
+              <% if (r.size) { %> • <%= r.size %><% } %>
+              • <%= r.downloads || 0 %> downloads
+            </div>
+            <% if (r.fileUrl) { %>
+              <a href="/download/<%= r._id %>" target="_blank">
+                <button type="button">Download</button>
+              </a>
+            <% } else { %>
+              <button type="button" disabled>No file</button>
+            <% } %>
+          </div>
+          <% if (isAdmin) { %>
+            <form method="POST" action="/delete/<%= r._id %>" style="margin-top:6px;">
+              <button type="submit"
+                onclick="return confirm('Delete this resource permanently?')"
+                style="background:#dc2626; color:#fff; border:none; padding:5px 10px; border-radius:8px; font-size:11px; cursor:pointer;">
+                Delete
+              </button>
+            </form>
+          <% } %>
+        </div>
+      <% }) %>
+    </div>
+
+    <% if (pagination && pagination.totalPages > 1) { %>
+      <div class="pagination">
+        <% const page = pagination.page; const totalPages = pagination.totalPages; %>
+        <% const queryWithoutPage = Object.assign({}, filters); %>
+        <% function buildQuery(pageNum) { 
+             const params = [];
+             for (const key in queryWithoutPage) {
+               if (queryWithoutPage[key]) {
+                 params.push(encodeURIComponent(key) + "=" + encodeURIComponent(queryWithoutPage[key]));
+               }
+             }
+             if (pageNum && pageNum > 1) {
+               params.push("page=" + encodeURIComponent(String(pageNum)));
+             }
+             const qs = params.join("&");
+             return qs ? ("?" + qs) : "";
+           }
+        %>
+        <% const prevDisabled = page <= 1; const nextDisabled = page >= totalPages; %>
+
+        <a href="<%= pagination.basePath + buildQuery(page - 1) %>" class="<%= prevDisabled ? 'disabled' : '' %>">Prev</a>
+        <span class="current"><%= page %> / <%= totalPages %></span>
+        <a href="<%= pagination.basePath + buildQuery(page + 1) %>" class="<%= nextDisabled ? 'disabled' : '' %>">Next</a>
+      </div>
+    <% } %>
+  </div>
+
+  <footer class="footer">
+    <div>© 2025 StudentDesk. For educational use only.</div>
+    <div>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+      <a href="/papers">Papers</a>
+      <a href="/notes">Notes</a>
+    </div>
+  </footer>
+</body>
+</html>

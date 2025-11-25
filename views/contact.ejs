@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Contact | StudentDesk</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:"Poppins",sans-serif; }
+    body { background:#f5f7fb; color:#111827; }
+    a { text-decoration:none; color:inherit; }
+    .navbar { width: 100%; padding: 16px 5%; background: #ffffff; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08); }
+    .nav-logo { font-size: 22px; font-weight: 700; color: #2563eb; }
+    .nav-logo span { color: #111827; }
+    .nav-links { display:flex; gap:18px; font-size:13px; }
+    .nav-links a { padding:6px 10px; border-radius:999px; }
+    .nav-links a:hover { background:#e5edff; }
+    .nav-actions { font-size:12px; }
+    .btn-outline { border:1px solid #d1d5db; background:#fff; padding:6px 12px; border-radius:999px; cursor:pointer; }
+    .wrap { max-width:900px; margin:32px auto 40px; padding:0 16px; }
+    h1 { font-size:24px; margin-bottom:10px; }
+    p { font-size:13px; color:#4b5563; margin-bottom:10px; }
+    form { margin-top:16px; display:grid; grid-template-columns:1fr 1fr; gap:12px 18px; font-size:13px; }
+    label { display:block; margin-bottom:4px; color:#374151; }
+    input[type="text"], input[type="email"], textarea { width:100%; padding:8px 10px; border-radius:10px; border:1px solid #d1d5db; outline:none; background:#f9fafb; }
+    textarea { min-height:100px; resize:vertical; }
+    input:focus, textarea:focus { border-color:#2563eb; background:#fff; }
+    .full { grid-column:1 / -1; }
+    .btn-primary { border:none; background:#2563eb; color:#fff; padding:8px 18px; border-radius:999px; cursor:pointer; font-size:13px; }
+    .footer { padding: 16px 5% 24px; border-top: 1px solid #e5e7eb; font-size: 11px; color: #6b7280; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+    .footer a { margin-right: 10px; font-size: 11px; }
+    @media (max-width: 700px) {
+      form { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-logo">Student<span>Desk</span></div>
+    <nav class="nav-links">
+      <a href="/">Home</a>
+      <a href="/papers">Exam Papers</a>
+      <a href="/notes">Notes</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="/" style="text-decoration:none;"><button class="btn-outline" type="button">Back</button></a>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <h1>Contact</h1>
+    <p>If you have any issues, suggestions, or want to report incorrect content, you can reach out using the form below.</p>
+
+    <form>
+      <div>
+        <label for="name">Your Name</label>
+        <input type="text" id="name" placeholder="Your Name" />
+      </div>
+      <div>
+        <label for="email">Email (optional)</label>
+        <input type="email" id="email" placeholder="you@example.com" />
+      </div>
+      <div class="full">
+        <label for="message">Message</label>
+        <textarea id="message" placeholder="Write your message here..."></textarea>
+      </div>
+      <div class="full">
+        <button type="button" class="btn-primary">Send (demo only)</button>
+      </div>
+    </form>
+
+    <p style="margin-top:18px; font-size:12px; color:#6b7280;">
+      Note: This is a demo contact form. For a real deployment, you can connect this to a backend email service or database.
+    </p>
+  </div>
+
+  <footer class="footer">
+    <div>© 2025 StudentDesk. For educational use only.</div>
+    <div>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+      <a href="/papers">Papers</a>
+      <a href="/notes">Notes</a>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>About | StudentDesk</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:"Poppins",sans-serif; }
+    body { background:#f5f7fb; color:#111827; }
+    a { text-decoration:none; color:inherit; }
+    .navbar { width: 100%; padding: 16px 5%; background: #ffffff; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08); }
+    .nav-logo { font-size: 22px; font-weight: 700; color: #2563eb; }
+    .nav-logo span { color: #111827; }
+    .nav-links { display:flex; gap:18px; font-size:13px; }
+    .nav-links a { padding:6px 10px; border-radius:999px; }
+    .nav-links a:hover { background:#e5edff; }
+    .nav-actions { font-size:12px; }
+    .btn-outline { border:1px solid #d1d5db; background:#fff; padding:6px 12px; border-radius:999px; cursor:pointer; }
+    .wrap { max-width:900px; margin:32px auto 40px; padding:0 16px; }
+    h1 { font-size:24px; margin-bottom:10px; }
+    p { font-size:13px; color:#4b5563; margin-bottom:10px; }
+    h2 { font-size:18px; margin:20px 0 8px; }
+    ul { margin-left:18px; font-size:13px; color:#4b5563; }
+    .footer { padding: 16px 5% 24px; border-top: 1px solid #e5e7eb; font-size: 11px; color: #6b7280; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+    .footer a { margin-right: 10px; font-size: 11px; }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-logo">Student<span>Desk</span></div>
+    <nav class="nav-links">
+      <a href="/">Home</a>
+      <a href="/papers">Exam Papers</a>
+      <a href="/notes">Notes</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="/" style="text-decoration:none;"><button class="btn-outline" type="button">Back</button></a>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <h1>About StudentDesk</h1>
+    <p><strong>StudentDesk</strong> is a mini portal for college students to download previous year question papers and important notes for all branches and years.</p>
+
+    <h2>What you can do</h2>
+    <ul>
+      <li>Find exam papers filtered by branch, year, semester, and exam type.</li>
+      <li>Download high-quality notes PDFs uploaded by faculty or toppers.</li>
+      <li>Track which resources are most popular using download counts.</li>
+      <li>Students can create a simple account using their roll number.</li>
+    </ul>
+
+    <h2>Who can upload?</h2>
+    <p>Only <strong>admins</strong> can upload or delete resources. Students can browse and download, ensuring that the content on the portal is clean and verified.</p>
+
+    <h2>Tech stack</h2>
+    <ul>
+      <li>Node.js + Express.js (backend)</li>
+      <li>EJS templating (frontend views)</li>
+      <li>MongoDB / MongoDB Atlas (database)</li>
+      <li>Multer for PDF uploads</li>
+    </ul>
+
+    <p style="margin-top:18px; font-size:12px; color:#6b7280;">
+      This project is created for learning and academic purposes. It can be deployed on Render/Railway and connected to MongoDB Atlas for real-world usage.
+    </p>
+  </div>
+
+  <footer class="footer">
+    <div>© 2025 StudentDesk. For educational use only.</div>
+    <div>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+      <a href="/papers">Papers</a>
+      <a href="/notes">Notes</a>
+    </div>
+  </footer>
+</body>
+</html>

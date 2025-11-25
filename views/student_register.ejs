@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Student Registration | StudentDesk</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; }
+    body { background: #f5f7fb; color: #111827; }
+    .wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 16px; }
+    .card { width: 100%; max-width: 400px; background: #ffffff; border-radius: 18px; padding: 22px 20px; box-shadow: 0 4px 18px rgba(15, 23, 42, 0.08); }
+    h1 { font-size: 20px; margin-bottom: 4px; text-align: center; }
+    p { font-size: 12px; color: #6b7280; margin-bottom: 16px; text-align: center; }
+    label { display: block; font-size: 12px; margin-bottom: 4px; color: #374151; }
+    input[type="text"], input[type="password"] { width: 100%; padding: 8px 10px; border-radius: 10px; border: 1px solid #d1d5db; outline: none; font-size: 13px; background: #f9fafb; margin-bottom: 10px; }
+    input[type="text"]:focus, input[type="password"]:focus { border-color: #2563eb; background: #ffffff; }
+    .btn-primary { border: none; outline: none; width: 100%; padding: 9px 16px; border-radius: 999px; background: #2563eb; color: #ffffff; font-size: 14px; font-weight: 500; cursor: pointer; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25); margin-top: 4px; }
+    .link { font-size: 11px; text-align: center; margin-top: 8px; }
+    .link a { color: #2563eb; text-decoration: none; }
+    .error { background: #fee2e2; color: #b91c1c; font-size: 11px; padding: 6px 8px; border-radius: 8px; margin-bottom: 8px; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Student Registration</h1>
+      <p>Create your account using your roll number.</p>
+
+      <% if (error) { %>
+        <div class="error"><%= error %></div>
+      <% } %>
+
+      <form method="POST" action="/student/register">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="Your Name" required />
+
+        <label for="rollNo">Roll Number</label>
+        <input type="text" id="rollNo" name="rollNo" placeholder="e.g. 23D41A0524" required />
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required />
+
+        <button type="submit" class="btn-primary">Register</button>
+      </form>
+
+      <div class="link">
+        Already registered? <a href="/student/login">Login</a>
+      </div>
+      <div class="link">
+        <a href="/">← Back to Home</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

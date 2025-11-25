@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Upload Resource | StudentDesk</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; }
+    body { background: #f5f7fb; color: #111827; }
+    a { text-decoration: none; color: inherit; }
+    .navbar { width: 100%; padding: 16px 5%; background: #ffffff; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08); }
+    .nav-logo { font-size: 22px; font-weight: 700; color: #2563eb; }
+    .nav-logo span { color: #111827; }
+    .nav-actions { display:flex; gap:10px; align-items:center; font-size: 12px; }
+    .btn-outline { border: 1px solid #d1d5db; background:#fff; padding:6px 12px; border-radius:999px; cursor:pointer; }
+    .btn-primary { border:none; background:#2563eb; color:#fff; padding:6px 12px; border-radius:999px; cursor:pointer; }
+    .container { max-width: 800px; margin: 32px auto; background: #ffffff; padding: 24px 20px; border-radius: 18px; box-shadow: 0 4px 18px rgba(15, 23, 42, 0.08); }
+    h1 { font-size: 22px; margin-bottom: 8px; }
+    p { font-size: 13px; color: #4b5563; margin-bottom: 18px; }
+    form { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; font-size: 13px; }
+    .full { grid-column: 1 / -1; }
+    label { display: block; margin-bottom: 4px; color: #374151; }
+    input[type="text"], input[type="number"], select { width: 100%; padding: 8px 10px; border-radius: 10px; border: 1px solid #d1d5db; outline: none; font-size: 13px; background: #f9fafb; }
+    input[type="text"]:focus, input[type="number"]:focus, select:focus { border-color: #2563eb; background: #ffffff; }
+    input[type="file"] { font-size: 12px; }
+    .hint { font-size: 11px; color: #6b7280; margin-top: 2px; }
+    .actions { grid-column: 1 / -1; display: flex; justify-content: flex-end; margin-top: 6px; }
+    .error { grid-column: 1 / -1; background: #fee2e2; color: #b91c1c; padding: 8px 10px; font-size: 12px; border-radius: 10px; margin-bottom: 4px; }
+    .back-link { font-size: 12px; margin-bottom: 14px; display: inline-block; color: #2563eb; }
+    .footer { padding: 16px 5% 24px; border-top: 1px solid #e5e7eb; font-size: 11px; color: #6b7280; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+    .footer a { margin-right: 10px; font-size: 11px; }
+    @media (max-width: 700px) {
+      form { grid-template-columns: 1fr; }
+      .actions { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-logo">Student<span>Desk</span></div>
+    <div class="nav-actions">
+      <a href="/" style="text-decoration:none;"><button class="btn-outline" type="button">Back to Home</button></a>
+      <% if (isAdmin) { %>
+        <form method="POST" action="/admin/logout" style="display:inline;">
+          <button type="submit" class="btn-primary">Admin Logout</button>
+        </form>
+      <% } %>
+    </div>
+  </header>
+
+  <div class="container">
+    <a href="/" class="back-link">← Back to Home</a>
+    <h1>Upload Paper / Notes</h1>
+    <p>Upload a PDF file directly or give an external PDF URL. Only admins can upload.</p>
+
+    <% if (error) { %>
+      <div class="error"><%= error %></div>
+    <% } %>
+
+    <form method="POST" action="/upload" enctype="multipart/form-data">
+      <div class="full">
+        <label for="title">Title *</label>
+        <input type="text" id="title" name="title" placeholder="e.g. DBMS – CSE – 3rd Year – 2024" required />
+      </div>
+
+      <div>
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" name="subject" placeholder="DBMS" />
+      </div>
+
+      <div>
+        <label for="type">Type *</label>
+        <select id="type" name="type" required>
+          <option value="">Select type</option>
+          <option value="paper">Question Paper</option>
+          <option value="note">Notes PDF</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="branch">Branch</label>
+        <select id="branch" name="branch">
+          <option value="">Select branch</option>
+          <option value="CSE">CSE</option>
+          <option value="ECE">ECE</option>
+          <option value="EEE">EEE</option>
+          <option value="CIVIL">CIVIL</option>
+          <option value="CSE Cyber Security">CSE Cyber Security</option>
+          <option value="CSE Data Science">CSE Data Science</option>
+          <option value="AIML">AIML</option>
+          <option value="IoT">IoT</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="year">Year</label>
+        <select id="year" name="year">
+          <option value="">Select year</option>
+          <option value="1st Year">1st Year</option>
+          <option value="2nd Year">2nd Year</option>
+          <option value="3rd Year">3rd Year</option>
+          <option value="4th Year">4th Year</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="semester">Semester</label>
+        <select id="semester" name="semester">
+          <option value="">Select semester</option>
+          <% for (let i = 1; i <= 8; i++) { const label = "Semester " + i; %>
+            <option value="<%= label %>"><%= label %></option>
+          <% } %>
+        </select>
+      </div>
+
+      <div>
+        <label for="examType">Exam Type</label>
+        <select id="examType" name="examType">
+          <option value="">None</option>
+          <option value="Mid Exam">Mid Exam</option>
+          <option value="Semester Final">Semester Final</option>
+          <option value="Lab External">Lab External</option>
+          <option value="Unit Test">Unit Test</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="regulation">Regulation</label>
+        <input type="text" id="regulation" name="regulation" placeholder="R23" />
+      </div>
+
+      <div class="full">
+        <label for="pdfFile">Upload PDF file</label>
+        <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf" />
+        <div class="hint">Only .pdf files are accepted.</div>
+      </div>
+
+      <div class="full">
+        <label for="fileUrl">OR External PDF URL</label>
+        <input type="text" id="fileUrl" name="fileUrl" placeholder="https://example.com/file.pdf" />
+        <div class="hint">If you upload a file and also give a URL, the uploaded file will be used.</div>
+      </div>
+
+      <div>
+        <label for="size">File Size (e.g. 1.2 MB)</label>
+        <input type="text" id="size" name="size" placeholder="1.2 MB" />
+      </div>
+
+      <div>
+        <label for="uploader">Uploader Name</label>
+        <input type="text" id="uploader" name="uploader" placeholder="Topper / Faculty" />
+      </div>
+
+      <div>
+        <label for="rating">Rating (0–5)</label>
+        <input type="number" id="rating" name="rating" min="0" max="5" step="1" />
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn-primary">Save Resource</button>
+      </div>
+    </form>
+  </div>
+
+  <footer class="footer">
+    <div>© 2025 StudentDesk. For educational use only.</div>
+    <div>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+      <a href="/papers">Papers</a>
+      <a href="/notes">Notes</a>
+    </div>
+  </footer>
+</body>
+</html>
